@@ -1,7 +1,7 @@
 print('Omgifol Unit Tests')
 
 import unittest, random
-import omg, omg.colormap, omg.playpal
+import omg, omg.colormap, omg.playpal, omg.txdef
 
 from PIL import Image, ImageChops
 import pdb
@@ -120,16 +120,6 @@ class TestMapeditDrawSector(unittest.TestCase):
             self.assertTrue(len(self.m.sidedefs) == n)
             self.assertTrue(len(self.m.sectors) == 1)
 
-
-
-# class TestPalette(unittest.TestCase):
-#     def setUp(self):
-#         pass
-
-#     def test_farts(self):
-#         pass
-
-
 class TestPlaypal(unittest.TestCase):
     def setUp(self):
         testwad = omg.WAD('test.wad')
@@ -149,12 +139,16 @@ class TestPlaypal(unittest.TestCase):
         self.pal.build_defaults()
 
 
-# class TestTxdef(unittest.TestCase):
-#     def setUp(self):
-#         pass
+class TestTxdef(unittest.TestCase):
+    def setUp(self):
+        testwad = omg.WAD('test.wad')
+        self.tex = omg.txdef.Textures(testwad.txdefs)
 
-#     def test_farts(self):
-#         pass
+    def test_to_lumps(self):
+        lmps = self.tex.to_lumps()
+        self.assertTrue(isinstance(lmps,omg.txdef.TxdefGroup))
+        self.assertTrue(isinstance(lmps['TEXTURE1'],omg.Lump))
+        self.assertTrue(isinstance(lmps['PNAMES'],omg.Lump))
 
 
 # class TestUtil(unittest.TestCase):
